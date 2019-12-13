@@ -35,7 +35,7 @@ class Api::V1::RecipesController < ApplicationController
         new_recipe = {}
 
         new_recipe[:id] = recipe.id
-        new_recipe[:user_id] = recipe.user_id
+        # new_recipe[:user_id] = recipe.user_id
         new_recipe[:name] = recipe.name
         new_recipe[:servings] = recipe.servings
 
@@ -208,7 +208,7 @@ class Api::V1::RecipesController < ApplicationController
   # end
 
   def recipe_params
-    params.require(:recipe).permit(:name, :servings, :user_id, recipe_ingredients_attributes: [:ingredient_id, :ingredient_amount, :ingredient_unit, :_destroy, :id])
+    params.require(:recipe).permit(:name, :servings, :recipe_ingredients_attributes: [:ingredient_id, :ingredient_amount, :ingredient_unit, :_destroy, :id])
   end
 
 
