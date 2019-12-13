@@ -27,7 +27,8 @@ class Recipe < ApplicationRecord
 
 
   # CSV Import
-  def self.import(file, user)
+  # def self.import(file, user)
+  def self.import(file)
     # Create hash by looping through each row
     CSV.foreach(file.path, headers: true) do |row|
       # Specify fields
@@ -39,7 +40,8 @@ class Recipe < ApplicationRecord
       # Find or create recipe
       recipe = Recipe.find_by_name(recipe_name)
       if !recipe
-        recipe = user.recipes.create(name: recipe_name)
+        recipe = Recipe.create(name: recipe_name)
+        # recipe = user.recipes.create(name: recipe_name)
       end
 
       # Create recipe_ingredient record
