@@ -20,10 +20,10 @@ class Recipe < ApplicationRecord
     # call with Recipe.users_recipes(user)
   
   # # Return recipes by ingredient
-  # scope :recipes_of_ingredient, -> (ingredient) { joins(:ingredients).where(ingredients: {id: ingredient}) }
+  scope :recipes_of_ingredient, -> (ingredient) { joins(:ingredients).where(ingredients: {id: ingredient}) }
 
   # # Return all ingredients used in recipes
-  # scope :all_ingredients, -> { joins(:ingredients).select("ingredients.*") }
+  scope :all_ingredients, -> { joins(:ingredients).select("ingredients.*") }
 
 
   # CSV Import
