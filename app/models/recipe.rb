@@ -9,21 +9,21 @@ class Recipe < ApplicationRecord
   accepts_nested_attributes_for :recipe_ingredients, reject_if: proc { |attributes| attributes['ingredient_id'].blank? || attributes['ingredient_amount'].blank? || attributes['ingredient_unit'].blank?}, allow_destroy: true
 
   # Validations
-  validates :name, presence: true
-  validates :name, uniqueness: { 
-    scope: %i[user_id],
-    message: 'must be unique.' 
-  }
+  validates :name, presence: true, uniqueness: true
+  # validates :name, uniqueness: { 
+  #   scope: %i[user_id],
+  #   message: 'must be unique.' 
+  # }
 
   # Return user's recipes
   # scope :users_recipes, -> (user) {where(user_id: user.id)}
     # call with Recipe.users_recipes(user)
   
-  # Return recipes by ingredient
-  scope :recipes_of_ingredient, -> (ingredient) { joins(:ingredients).where(ingredients: {id: ingredient}) }
+  # # Return recipes by ingredient
+  # scope :recipes_of_ingredient, -> (ingredient) { joins(:ingredients).where(ingredients: {id: ingredient}) }
 
-  # Return all ingredients used in recipes
-  scope :all_ingredients, -> { joins(:ingredients).select("ingredients.*") }
+  # # Return all ingredients used in recipes
+  # scope :all_ingredients, -> { joins(:ingredients).select("ingredients.*") }
 
 
   # CSV Import
