@@ -53,7 +53,10 @@ class Api::V1::RecipesController < ApplicationController
         new_recipe
       end 
 
-      render json: RecipeSerializer.new(recipes).serialized_json, status: 200  
+	    options = {
+	      include: [:recipe_ingredients]
+	    }
+      render json: RecipeSerializer.new(recipes, options).serialized_json, status: 200  
   end
 
   # Display user's recipes by ingredient
@@ -104,18 +107,19 @@ class Api::V1::RecipesController < ApplicationController
       # authorize_owner_resource(recipe)
 
       # Map costs for each ingredient
-      @recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
+      recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
 
       # Total recipe cost
-      @recipe_total_cost = recipe.total_cost(recipe_ingredients)
+      recipe_total_cost = recipe.total_cost(recipe_ingredients)
       
       # Cost per serving
-      @recipe_cost_per_serving = @recipe.cost_per_serving(@recipe_total_cost) if @recipe.servings
+      recipe_cost_per_serving = recipe.cost_per_serving(recipe_total_cost) if recipe.servings
 
-      options = {
-        include: [@recipe_ingredients, @recipe_total_cost, @recipe_cost_per_serving]
-      }
-      render json: RecipeSerializer.new(recipe, options).serialized_json
+      # options = {
+      #   include: [@recipe_ingredients, @recipe_total_cost, @recipe_cost_per_serving]
+      # }
+
+      render json: RecipeSerializer.new(recipe).serialized_json
     else
       render json: { message: 'Recipe not found' }
     end
@@ -208,7 +212,7 @@ class Api::V1::RecipesController < ApplicationController
   # end
 
   def recipe_params
-    params.require(:recipe).permit(:name, :servings, :recipe_ingredients_attributes: [:ingredient_id, :ingredient_amount, :ingredient_unit, :_destroy, :id])
+    params.require(:recipe).permit(:name, :servings, recipe_ingredients_attributes: [:ingredient_id, :ingredient_amount, :ingredient_unit, :_destroy, :id])
   end
 
 
