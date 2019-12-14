@@ -5,11 +5,8 @@ class Api::V1::RecipesController < ApplicationController
   def index
     recipes = Recipe.all
     
-
 # Want to display:
 #  Ginger Cookies	$5.97  |  per serving: $0.03	Edit | Delete
-
-
 
   #   if is_admin?
   #     @recipes = Recipe.all
@@ -60,10 +57,12 @@ class Api::V1::RecipesController < ApplicationController
         new_recipe
       end 
 
-	    options = {
-	      include: [:recipe_ingredients]
-	    }
-      render json: RecipeSerializer.new(recipes, options).serialized_json, status: 200  
+	    # options = {
+	    #   include: [:recipe_ingredients]
+	    # }
+      # render json: RecipeSerializer.new(recipes, options).serialized_json, status: 200  
+
+      render json: {recipes: recipe_costs}, status: 200  
   end
 
   # Display user's recipes by ingredient
@@ -89,7 +88,8 @@ class Api::V1::RecipesController < ApplicationController
       recipes = Recipe.all
     end
 
-    render json: RecipeSerializer.new(recipes).serialized_json, status: 200
+    # render json: RecipeSerializer.new(recipes).serialized_json, status: 200
+    render json: {recipes: recipes}, status: 200  
   end
 
   # Display record
@@ -120,20 +120,16 @@ class Api::V1::RecipesController < ApplicationController
       recipe_total_cost = recipe.total_cost(recipe_ingredients)
       
       # Cost per serving
+      recipe_cost_per_serving = ''
       recipe_cost_per_serving = recipe.cost_per_serving(recipe_total_cost) if recipe.servings
 
-      # options = {
-      #   include: [@recipe_ingredients, @recipe_total_cost, @recipe_cost_per_serving]
-      # }
-
-      render json: RecipeSerializer.new(recipe).serialized_json
-
 	    # options = {
-	    #   include: [:recipe_ingredients]
+      #   # include: [:recipe_ingredients]
+      #   include: recipe_ingredients
 	    # }
       # render json: RecipeSerializer.new(recipe, options).serialized_json, status: 200 
 
-      # render json: recipe_ingredients
+      render json: {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}, status: 200
 
     else
       render json: { message: 'Recipe not found' }
@@ -153,10 +149,9 @@ class Api::V1::RecipesController < ApplicationController
     recipe = Recipe.new(recipe_params)
 
     if recipe.save
-      render json: RecipeSerializer.new(recipe).serialized_json, status: 200
+      # render json: RecipeSerializer.new(recipe).serialized_json, status: 200    
+      render json: {recipe: recipe}, status: 200  
     else
-      # flash[:error] = @recipe.errors.full_messages
-      # redirect_to new_user_recipe_path(user, recipe)
       render json: { message: 'Recipe error' }
     end
   end
@@ -173,7 +168,8 @@ class Api::V1::RecipesController < ApplicationController
     recipe.update(recipe_params)
 
     if recipe.save
-      render json: RecipeSerializer.new(recipe).serialized_json, status: 200
+      # render json: RecipeSerializer.new(recipe).serialized_json, status: 200
+      render json: {recipe: recipe}, status: 200  
     else
       render json: { message: 'Recipe error' }
     end
@@ -189,15 +185,19 @@ class Api::V1::RecipesController < ApplicationController
     # require_authorization(user)
 
     # Recipe.import(params[:file], user)
-    Recipe.import(params[:file])
-    recipes = Recipe.all
-
-    # How to get latested added?
+    recipes_names = Recipe.import(params[:file])
+    # recipes = Recipe.all
 
     # recipes = user.recipes
     # recipes = user.recipes.includes(:recipe_ingredients) 
 
-    render json: RecipeSerializer.new(recipes).serialized_json, status: 200
+    # render json: RecipeSerializer.new(recipes).serialized_json, status: 200
+
+
+
+    # How to get latested added?
+
+    render json: {recipeNames: recipes_names}, status: 200  
   end
 
   # Delete record
