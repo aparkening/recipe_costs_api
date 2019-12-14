@@ -5,6 +5,12 @@ class Api::V1::RecipesController < ApplicationController
   def index
     recipes = Recipe.all
     
+
+# Want to display:
+#  Ginger Cookies	$5.97  |  per serving: $0.03	Edit | Delete
+
+
+
   #   if is_admin?
   #     @recipes = Recipe.all
   #     @user = User.find_by(id: params[:user_id])
@@ -21,6 +27,7 @@ class Api::V1::RecipesController < ApplicationController
       # user = User.find_by(id: params[:user_id])
       # user = current_user
 
+      # Input format: http://localhost:3000/recipes?search=ginger
       if params[:search]
         # If search, find results
         # recipes = Recipe.users_recipes(user).where('name LIKE ?', "%#{params[:search]}%").order('id DESC')
@@ -120,6 +127,14 @@ class Api::V1::RecipesController < ApplicationController
       # }
 
       render json: RecipeSerializer.new(recipe).serialized_json
+
+	    # options = {
+	    #   include: [:recipe_ingredients]
+	    # }
+      # render json: RecipeSerializer.new(recipe, options).serialized_json, status: 200 
+
+      # render json: recipe_ingredients
+
     else
       render json: { message: 'Recipe not found' }
     end
