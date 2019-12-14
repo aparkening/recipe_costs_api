@@ -1,5 +1,5 @@
 class CombinedIngredient
-  attr_reader :name, :amount, :amount_unit, :total_cost, :ingredient, :base_cost_unit, :base_cost_size, :base_cost, :cost_ratio
+  attr_reader :name, :amount, :amount_unit, :total_cost, :ingredient, :base_cost_unit, :base_cost_size, :base_cost, :cost_ratio, :id
 
   ### Constants for conversion not included in Measured gem
   TSP = 0.16667 #oz
@@ -14,6 +14,7 @@ class CombinedIngredient
 
   def initialize(recipe_ingredient)
     # @user = recipe_ingredient.recipe.user
+    @id = recipe_ingredient.id
     @ingredient = recipe_ingredient.ingredient
     @name = @ingredient.name
     @amount = recipe_ingredient.ingredient_amount
