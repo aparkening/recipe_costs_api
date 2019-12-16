@@ -57,17 +57,36 @@ class CombinedIngredient
     if convert_to == "volume"
       kilo_amount =  Measured::Weight.new(@amount, @amount_unit).convert_to(:kg).value.to_f    
       converted = Measured::Volume.new(kilo_amount, :l).convert_to(@base_cost_unit).value.to_f   
-      # @amount = Measured::Weight.new(@amount, @amount_unit).convert_to(:kg).value.to_f    
-      # @amount_unit = "l"
 
     # Convert current volume to liters, then return as kilo amount
     else 
       liter_amount =  Measured::Volume.new(@amount, @amount_unit).convert_to(:l).value.to_f    
       converted = Measured::Weight.new(liter_amount, :kg).convert_to(@base_cost_unit).value.to_f  
-      # @amount = Measured::Volume.new(@amount, @amount_unit).convert_to(:l).value.to_f    
-      # @amount_unit = "kg"
     end
     return converted
+  end
+
+
+  # Use volume or weight for conversion
+  def convert_amount(type)
+    if type == "volume"
+      # If base_cost_unit is weight, convert amount and amount_unit to weight
+      if Measured::Weight.unit_names.include?(@base_cost_unit)
+        converted_amount = convert_vol_weight("weight")
+      else 
+        # Else calculate using volume
+        converted_amount = Measured::Volume.new(@amount, @amount_unit).convert_to(@base_cost_unit).value.to_f          
+      end
+    else
+      # If base_cost_unit is volume, convert amount and amount_unit to volume
+      if Measured::Volume.unit_names.include?(@base_cost_unit)
+        converted_amount = convert_vol_weight("volume")
+      else 
+        # Else convert using weight
+        converted_amount = Measured::Weight.new(@amount, @amount_unit).convert_to(@base_cost_unit).value.to_f          
+      end
+    end
+    return converted_amount 
   end
 
 
@@ -88,25 +107,13 @@ class CombinedIngredient
 
       # If amount_unit in Measured Weight database, convert
       if Measured::Weight.unit_names.include?(@amount_unit)
-
-        # If base_cost_unit is volume, convert amount and amount_unit to volume
-        if Measured::Volume.unit_names.include?(@base_cost_unit)
-          converted_amount = convert_vol_weight("volume")
-        else 
-          # Else convert using weight
-          converted_amount = Measured::Weight.new(@amount, @amount_unit).convert_to(@base_cost_unit).value.to_f          
-        end
+        # Convert amount based on weight or volume
+        converted_amount = convert_amount("weight")
 
       # If amount_unit in Measured Volume database, convert
       elsif Measured::Volume.unit_names.include?(@amount_unit)
-
-        # If base_cost_unit is weight, convert amount and amount_unit to weight
-        if Measured::Weight.unit_names.include?(@base_cost_unit)
-          converted_amount = convert_vol_weight("weight")
-        else 
-          # Else convert using volume
-          converted_amount = Measured::Volume.new(@amount, @amount_unit).convert_to(@base_cost_unit).value.to_f          
-        end
+        # Convert amount based on weight or volume
+        converted_amount = convert_amount("volume")
      
       # Else convert by constants
       else 
@@ -122,14 +129,8 @@ class CombinedIngredient
         # Reset amount_unit to oz
         @amount_unit = "fl_oz"
 
-        # If base_cost_unit is weight, convert amount and amount_unit to weight
-        if Measured::Weight.unit_names.include?(@base_cost_unit)
-          converted_amount = convert_vol_weight("weight")
-        else 
-          # Else convert using volume
-          converted_amount = Measured::Volume.new(@amount, @amount_unit).convert_to(@base_cost_unit).value.to_f          
-        end
-
+        # Convert amount based on weight or volume
+        converted_amount = convert_amount("volume")
       end
 
       @total_cost = (@cost_ratio * converted_amount).round(2)
