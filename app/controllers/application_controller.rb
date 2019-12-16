@@ -11,7 +11,14 @@ class ApplicationController < ActionController::API
     render json: { message: "Welcome Home!" }
   end
 
-  
+
+  ### Errors
+
+  # Render 404 message
+  def not_found
+    reunder json: { message: 'Resource not found'}, status: 404
+  end
+
 
   private
 
