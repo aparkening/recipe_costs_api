@@ -107,7 +107,8 @@ class Api::V1::RecipesController < ApplicationController
       render json: {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}, status: 200
 
     else
-      render json: { message: 'Recipe not found' }
+      # render json: { message: 'Recipe not found' }
+      not_found
     end
   end
 
