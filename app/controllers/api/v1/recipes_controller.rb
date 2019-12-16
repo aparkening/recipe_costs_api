@@ -67,33 +67,6 @@ class Api::V1::RecipesController < ApplicationController
       render json: {recipes: recipe_costs}, status: 200  
   end
 
-  # Display user's recipes by ingredient
-  def by_ingredient
-    # redirect_non_users
-        
-    # user = User.find_by(id: params[:user_id])
-  
-    # If ingredient exists, find recipes that use it
-    if Ingredient.exists?(params[:id])
-      ingredient = Ingredient.find(params[:id])
-      # if is_admin?
-      #   # Show all recipes from ingredient for admins
-      #   @recipes = Recipe.recipes_of_ingredient(params[:id])
-      # else
-        # Only show user's recipes
-        # recipes = user.recipes.recipes_of_ingredient(params[:id])
-        recipes = Recipe.recipes_of_ingredient(params[:id])
-      # end
-    else
-      # flash[:alert] = "That ingredient wasn't found."
-      # Else show all users' recipes
-      recipes = Recipe.all
-    end
-
-    # render json: RecipeSerializer.new(recipes).serialized_json, status: 200
-    render json: {recipes: recipes}, status: 200  
-  end
-
   # Display record
   def show
     # redirect_non_users
@@ -224,6 +197,33 @@ class Api::V1::RecipesController < ApplicationController
     recipe.destroy
 
     render json: {recipeId: recipe.id}, status: 200
+  end
+
+  # Display recipes by ingredient
+  def by_ingredient
+    # redirect_non_users
+        
+    # user = User.find_by(id: params[:user_id])
+  
+    # If ingredient exists, find recipes that use it
+    if Ingredient.exists?(params[:id])
+      ingredient = Ingredient.find(params[:id])
+      # if is_admin?
+      #   # Show all recipes from ingredient for admins
+      #   @recipes = Recipe.recipes_of_ingredient(params[:id])
+      # else
+        # Only show user's recipes
+        # recipes = user.recipes.recipes_of_ingredient(params[:id])
+        recipes = Recipe.recipes_of_ingredient(params[:id])
+      # end
+    else
+      # flash[:alert] = "That ingredient wasn't found."
+      # Else show all users' recipes
+      recipes = Recipe.all
+    end
+
+    # render json: RecipeSerializer.new(recipes).serialized_json, status: 200
+    render json: {recipes: recipes}, status: 200  
   end
 
   private
