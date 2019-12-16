@@ -129,7 +129,7 @@ class Api::V1::RecipesController < ApplicationController
       render json: {recipe: recipe}, status: 200  
     else
       # render json: { message: 'Recipe creation error' }
-      conflict
+      resource_error
     end
   end
 
@@ -153,7 +153,7 @@ class Api::V1::RecipesController < ApplicationController
 
     else
       # render json: { message: 'Recipe update error' }
-      conflict
+      resource_error
     end
   end
 

@@ -18,7 +18,7 @@ class Api::V1::IngredientsController < ApplicationController
       render json: IngredientSerializer.new(ingredient).serialized_json, status: 200
     else
       # render json: { message: 'Ingredient creation error' }
-      conflict
+      resource_error
     end
   end
 
@@ -33,7 +33,7 @@ class Api::V1::IngredientsController < ApplicationController
       render json: IngredientSerializer.new(ingredient).serialized_json, status: 200
     else
       # render json: { message: 'Ingredient error' }
-      conflict
+      resource_error
     end  
   end
 

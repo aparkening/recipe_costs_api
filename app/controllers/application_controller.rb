@@ -19,9 +19,9 @@ class ApplicationController < ActionController::API
     reunder json: { message: 'Resource not found'}, status: 404
   end
 
-  # Render 409 message
-  def conflict
-    reunder json: { message: 'Resource conflict. Please update and try again.'}, status: 409
+  # Render 400 message
+  def bad_request
+    reunder json: { message: 'Resource error. Please update request and try again.'}, status: 409
   end
 
 
