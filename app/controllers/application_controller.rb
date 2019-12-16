@@ -20,8 +20,8 @@ class ApplicationController < ActionController::API
   end
 
   # Render 400 message
-  def bad_request
-    reunder json: { message: 'Resource error. Please update request and try again.'}, status: 409
+  def resource_error
+    reunder json: { message: 'Resource error. Please update request and try again.'}, status: 400
   end
 
 
