@@ -11,7 +11,7 @@ Rails.application.routes.draw do
       post 'ingredients/import'
 
       # Recipes
-      resources :recipes, only: [:index, :create, :update, :destroy]
+      resources :recipes, only: [:index, :show, :create, :update, :destroy]
       get 'recipes/ingredients/:id' => 'recipes#by_ingredient', as: "recipes_by_ingredient"
       post 'recipes/import'
     end
