@@ -24,11 +24,11 @@ class Api::V1::RecipesController < ApplicationController
       # user = User.find_by(id: params[:user_id])
       # user = current_user
 
-      # Input format: http://localhost:3000/recipes?search=ginger
+      # Input format: http://localhost:3000/api/v1/recipes?search=ginger
       if params[:search]
         # If search, find results
         # recipes = Recipe.users_recipes(user).where('name LIKE ?', "%#{params[:search]}%").order('id DESC')
-        recipes = Recipe.where('name LIKE ?', "%#{params[:search]}%").order('id DESC')
+        recipes = Recipe.where('name ILIKE ?', "%#{params[:search]}%").order('id DESC')
       else
         # Show everything
         # recipes = user.recipes.includes(:recipe_ingredients) 
@@ -170,6 +170,10 @@ class Api::V1::RecipesController < ApplicationController
     if recipe.save
       # render json: RecipeSerializer.new(recipe).serialized_json, status: 200
       render json: {recipe: recipe}, status: 200  
+
+# {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}
+
+
     else
       render json: { message: 'Recipe error' }
     end
