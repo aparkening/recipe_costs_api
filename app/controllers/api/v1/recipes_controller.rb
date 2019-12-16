@@ -127,7 +127,7 @@ class Api::V1::RecipesController < ApplicationController
       # render json: RecipeSerializer.new(recipe).serialized_json, status: 200    
       render json: {recipe: recipe}, status: 200  
     else
-      render json: { message: 'Recipe error' }
+      render json: { message: 'Recipe creation error' }
     end
   end
 
@@ -150,7 +150,7 @@ class Api::V1::RecipesController < ApplicationController
 
 
     else
-      render json: { message: 'Recipe error' }
+      render json: { message: 'Recipe update error' }
     end
   end
 
