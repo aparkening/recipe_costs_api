@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       # Ingredients
-      resources :ingredients
+      resources :ingredients, only: [:index, :create, :update, :destroy]
       post 'ingredients/import'
 
       # Recipes
