@@ -3,6 +3,7 @@ class Api::V1::IngredientsController < ApplicationController
 
   # All records
   def index
+    # Order ingredients alphabetically
     ingredients = Ingredient.all.order(name: :asc)
     render json: IngredientSerializer.new(ingredients).serialized_json, status: 200
   end
@@ -16,7 +17,8 @@ class Api::V1::IngredientsController < ApplicationController
     if ingredient.save
       render json: IngredientSerializer.new(ingredient).serialized_json, status: 200
     else
-      render json: { message: 'Ingredient error' }
+      # render json: { message: 'Ingredient creation error' }
+      conflict
     end
   end
 
@@ -30,7 +32,8 @@ class Api::V1::IngredientsController < ApplicationController
     if ingredient.save
       render json: IngredientSerializer.new(ingredient).serialized_json, status: 200
     else
-      render json: { message: 'Ingredient error' }
+      # render json: { message: 'Ingredient error' }
+      conflict
     end  
   end
 
