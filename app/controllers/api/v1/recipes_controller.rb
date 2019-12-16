@@ -44,15 +44,17 @@ class Api::V1::RecipesController < ApplicationController
         new_recipe[:servings] = recipe.servings
 
         # Get costs per ingredient
-        new_recipe[:ingredients] = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
+        new_recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
 
         # Calculate total cost
         # cost << recipe.total_cost(recipe_ingredients)
-        new_recipe[:total_cost] = recipe.total_cost(new_recipe[:ingredients])
+        new_recipe[:total_cost] = recipe.total_cost(new_recipe_ingredients)
 
         # Calculate cost per serving
         # cost << recipe.cost_per_serving(recipe.total_cost(recipe_ingredients)) if recipe.servings
         new_recipe[:cost_per_serving] = recipe.cost_per_serving(new_recipe[:total_cost]) if recipe.servings
+
+        new_recipe[:ingredients] = new_recipe_ingredients
 
         new_recipe
       end 
