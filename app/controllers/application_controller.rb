@@ -16,12 +16,12 @@ class ApplicationController < ActionController::API
 
   # Render 404 message
   def not_found
-    reunder json: { message: 'Resource not found'}, status: 404
+    render json: { error: 'Resource not found'}, status: 404
   end
 
   # Render 400 message
   def resource_error
-    reunder json: { message: 'Resource error. Please update request and try again.'}, status: 400
+    render json: { error: 'Resource error. Please update request and try again.'}, status: 400
   end
 
 
