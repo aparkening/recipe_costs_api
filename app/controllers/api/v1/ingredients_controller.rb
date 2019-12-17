@@ -5,7 +5,9 @@ class Api::V1::IngredientsController < ApplicationController
   def index
     # Order ingredients alphabetically
     ingredients = Ingredient.all.order(name: :asc)
-    render json: IngredientSerializer.new(ingredients).serialized_json, status: 200
+    # render json: IngredientSerializer.new(ingredients).serialized_json, status: 200
+
+    render json: {ingredients: ingredients}, status: 200
   end
 
   # Create record
@@ -15,7 +17,9 @@ class Api::V1::IngredientsController < ApplicationController
 
     ingredient = Ingredient.new(ing_params)
     if ingredient.save
-      render json: IngredientSerializer.new(ingredient).serialized_json, status: 200
+      render json: {ingredient: ingredient}, status: 200
+
+      # render json: IngredientSerializer.new(ingredient).serialized_json, status: 200
     else
       # render json: { message: 'Ingredient creation error' }
       resource_error
@@ -30,7 +34,8 @@ class Api::V1::IngredientsController < ApplicationController
     ingredient = Ingredient.find_by(id: params[:id])
     ingredient.update(ing_params)
     if ingredient.save
-      render json: IngredientSerializer.new(ingredient).serialized_json, status: 200
+      render json: {ingredient: ingredient}, status: 200
+      # render json: IngredientSerializer.new(ingredient).serialized_json, status: 200
     else
       # render json: { message: 'Ingredient error' }
       resource_error
@@ -43,7 +48,9 @@ class Api::V1::IngredientsController < ApplicationController
     ingredients = Ingredient.all.order(name: :asc)
 
     ### How to render only newly imported items?
-    render json: IngredientSerializer.new(ingredients).serialized_json, status: 200
+    render json: {ingredients: ingredients}, status: 200
+
+    # render json: IngredientSerializer.new(ingredients).serialized_json, status: 200
   end
 
   # Delete record
