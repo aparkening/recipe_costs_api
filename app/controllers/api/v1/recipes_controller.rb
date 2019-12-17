@@ -48,11 +48,11 @@ class Api::V1::RecipesController < ApplicationController
 
         # Calculate total cost
         # cost << recipe.total_cost(recipe_ingredients)
-        new_recipe[:total_cost] = recipe.total_cost(new_recipe_ingredients)
+        new_recipe[:total_cost] = recipe.calc_cost(new_recipe_ingredients)
 
         # Calculate cost per serving
         # cost << recipe.cost_per_serving(recipe.total_cost(recipe_ingredients)) if recipe.servings
-        new_recipe[:cost_per_serving] = recipe.cost_per_serving(new_recipe[:total_cost]) if recipe.servings
+        new_recipe[:cost_per_serving] = recipe.calc_cost_per_serving(new_recipe[:total_cost]) if recipe.servings
 
         new_recipe[:ingredients] = new_recipe_ingredients
 
@@ -85,18 +85,18 @@ class Api::V1::RecipesController < ApplicationController
 
     # If recipe exists, iterate through ingredients to calculate each cost and combine into total cost and cost per serving.
     if recipe
-
       # authorize_owner_resource(recipe)
 
       # Map costs for each ingredient
       recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
 
       # Total recipe cost
-      recipe_total_cost = recipe.total_cost(recipe_ingredients)
-      
+      recipe_total_cost = recipe.calc_cost(recipe_ingredients)
+      recipe[:total_cost] = recipe_total_cost
+
       # Cost per serving
-      recipe_cost_per_serving = ''
-      recipe_cost_per_serving = recipe.cost_per_serving(recipe_total_cost) if recipe.servings
+      recipe[:cost_per_serving] = ''
+      recipe[:cost_per_serving] = recipe.calc_cost_per_serving(recipe_total_cost) if recipe.servings
 
 	    # options = {
       #   # include: [:recipe_ingredients]
@@ -104,7 +104,11 @@ class Api::V1::RecipesController < ApplicationController
 	    # }
       # render json: RecipeSerializer.new(recipe, options).serialized_json, status: 200 
 
-      render json: {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}, status: 200
+      # render json: {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}, status: 200
+
+      render json: {recipe: recipe, ingredients: recipe_ingredients}, status: 200
+
+
 
     else
       # render json: { message: 'Recipe not found' }
