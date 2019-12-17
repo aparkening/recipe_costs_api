@@ -67,12 +67,12 @@ class Recipe < ApplicationRecord
     # end
 
     # Calculate total recipe cost
-    def total_cost(ingredient_costs)
+    def calc_cost(ingredient_costs)
       ingredient_costs.inject(0){|sum,x| sum + x.total_cost }.round(2)
     end
 
     # Calculate recipe cost per serving
-    def cost_per_serving(total_cost)
+    def calc_cost_per_serving(total_cost)
       (total_cost/self.servings).round(2)
     end
 
