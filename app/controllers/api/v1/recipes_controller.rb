@@ -108,7 +108,9 @@ class Api::V1::RecipesController < ApplicationController
       # render json: {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}, status: 200
 
       render json: {recipe: recipe, ingredients: recipe_ingredients}, status: 200
-
+      
+      # If don't want to show other attributes
+      # render json: recipe, except: [:created_at, :updated_at]
 
 
     else
