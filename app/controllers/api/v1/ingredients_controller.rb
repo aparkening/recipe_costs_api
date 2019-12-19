@@ -7,7 +7,11 @@ class Api::V1::IngredientsController < ApplicationController
     ingredients = Ingredient.all.order(name: :asc)
     # render json: IngredientSerializer.new(ingredients).serialized_json, status: 200
 
-    render json: {ingredients: ingredients}, status: 200
+    # Check all valid units: Measured::Weight.unit_names
+    available_units
+
+
+    render json: {ingredients: ingredients, units: available_units}, status: 200
   end
 
   # Create record

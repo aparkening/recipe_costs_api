@@ -28,7 +28,6 @@ class ApplicationController < ActionController::API
     all_units = ['grams', 'kg', 'lb', 'oz', 'liters', 'gal', 'qt', 'pt', 'us_fl_oz', 'tsp', 'tbsp', 'cup', 'none', 'each'].sort
     return all_units
 	end
-  helper_method :available_units
 
 
   ### Errors
