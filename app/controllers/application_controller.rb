@@ -12,8 +12,26 @@ class ApplicationController < ActionController::API
   end
 
 
-  ### Errors
+  ### Helpers
+  # Set accepted ingredient units
+  def available_units
+    # # Get weight measurements
+    # weight_units = Measured::Weight.unit_names
+    
+    # # Get volume measurements
+    # volume_units = Measured::Volume.unit_names
 
+    # # Combine both arrays
+    # all_units = weight_units | volume_units
+
+    # Too many extraneous units. Manual list easier.
+    all_units = ['grams', 'kg', 'lb', 'oz', 'liters', 'gal', 'qt', 'pt', 'us_fl_oz', 'tsp', 'tbsp', 'cup', 'none', 'each'].sort
+    return all_units
+	end
+  helper_method :available_units
+
+
+  ### Errors
   # Render 404 message
   def not_found
     render json: { error: 'Resource not found'}, status: 404
