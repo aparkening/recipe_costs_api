@@ -3,7 +3,7 @@ class Api::V1::RecipesController < ApplicationController
 
   # All records
   def index
-    recipes = Recipe.all
+    recipes = Recipe.all.order(name: :asc)
     
 # Want to display:
 #  Ginger Cookies	$5.97  |  per serving: $0.03	Edit | Delete
@@ -157,7 +157,7 @@ binding.pry
       # render json: RecipeSerializer.new(recipe).serialized_json, status: 200
       render json: {recipe: recipe}, status: 200  
 
-# {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}
+    # {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}
 
 
     else
