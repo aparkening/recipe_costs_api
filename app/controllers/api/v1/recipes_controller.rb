@@ -148,6 +148,8 @@ class Api::V1::RecipesController < ApplicationController
     # Require authorization
     # require_authorization(@user)
 
+binding.pry
+
     recipe = Recipe.find(params[:id])
     recipe.update(recipe_params)
 
