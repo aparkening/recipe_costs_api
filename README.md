@@ -1,24 +1,43 @@
-# README
+# Recipe Costs API
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Professional kitchens need to know their recipe costs to profitably price their food. Recipe Costs makes it easy for chefs to figure out the cost-per-serving of their recipes. This repository houses the Rails API, supplying data to the [JavaScript frontend interface]https://github.com/aparkening/recipe_costs_frontend. 
 
-Things you may want to cover:
+## Installation
 
-* Ruby version
+1. Clone this repo.
+2. Install dependences:
+```
+    $ bundle install
+```
+3. Create database structure:
+```
+    $ rails db:create
+    $ rails db:migrate
+```
+4. Run web server:
+```
+    $ rails s
+```
+5. Navigate to `localhost:3000` in your browser.
 
-* System dependencies
+## Usage
 
-* Configuration
+- Add your own data via command line by using `rails c`.
 
-* Database creation
+- Use test data by running the seed file:
 
-* Database initialization
+```
+    $ rails db:seed
+```
 
-* How to run the test suite
+## Contributing
 
-* Services (job queues, cache servers, search engines, etc.)
+Bug reports and pull requests are welcome on GitHub at https://github.com/aparkening/recipe_costs_api. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
-* Deployment instructions
+## License
 
-* ...
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+## Code of Conduct
+
+Everyone interacting in the Tea Tastes project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/aparkening/recipe_costs_api/blob/master/CODE_OF_CONDUCT.md).
