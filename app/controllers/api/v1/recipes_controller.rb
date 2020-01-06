@@ -133,7 +133,31 @@ class Api::V1::RecipesController < ApplicationController
 
     if recipe.save
       # render json: RecipeSerializer.new(recipe).serialized_json, status: 200    
-      render json: {recipe: recipe}, status: 200  
+      # render json: {recipe: recipe}, status: 200  
+      new_recipe = { recipe: {}}
+
+      new_recipe[:recipe][:id] = recipe.id
+      # new_recipe[:user_id] = recipe.user_id
+      new_recipe[:recipe][:name] = recipe.name
+      new_recipe[:recipe][:servings] = recipe.servings
+
+      # Get costs per ingredient
+      new_recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
+
+      # Calculate total cost
+      # cost << recipe.total_cost(recipe_ingredients)
+      new_recipe[:recipe][:total_cost] = recipe.calc_cost(new_recipe_ingredients)
+
+      # Calculate cost per serving
+      # cost << recipe.cost_per_serving(recipe.total_cost(recipe_ingredients)) if recipe.servings
+      new_recipe[:recipe][:cost_per_serving] = recipe.calc_cost_per_serving(new_recipe[:recipe][:total_cost]) if recipe.servings
+
+      new_recipe[:ingredients] = new_recipe_ingredients
+
+      # binding.pry
+      # Ensure ingredients are added
+
+      render json: new_recipe, status: 200  
     else
       # render json: { message: 'Recipe creation error' }
       resource_error
