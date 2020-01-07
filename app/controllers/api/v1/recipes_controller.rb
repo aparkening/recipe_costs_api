@@ -150,18 +150,25 @@ class Api::V1::RecipesController < ApplicationController
     # Require authorization
     # require_authorization(@user)
 
-binding.pry
+# binding.pry
 
     recipe = Recipe.find(params[:id])
     recipe.update(recipe_params)
 
     if recipe.save
-      # render json: RecipeSerializer.new(recipe).serialized_json, status: 200
-      render json: {recipe: recipe}, status: 200  
+      # Map costs for each ingredient
+      recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
 
-    # {recipe: recipe, totalCost: recipe_total_cost, costPerServing: recipe_cost_per_serving, recipeIngredients: recipe_ingredients}
+      # Total recipe cost
+      recipe_total_cost = recipe.calc_cost(recipe_ingredients)
+      recipe[:total_cost] = recipe_total_cost
 
+      # Cost per serving
+      recipe[:cost_per_serving] = ''
+      recipe[:cost_per_serving] = recipe.calc_cost_per_serving(recipe_total_cost) if recipe.servings
 
+      # JSON output
+      render json: {recipe: recipe, ingredients: recipe_ingredients}, status: 200
     else
       # render json: { message: 'Recipe update error' }
       resource_error
