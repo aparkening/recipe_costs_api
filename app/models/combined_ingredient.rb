@@ -117,6 +117,11 @@ class CombinedIngredient
      
       # Else convert by constants
       else 
+        
+        # Save initial values. Display after calculations made.
+        saved_amount = @amount
+        saved_unit = @amount_unit
+
         case @amount_unit
         when "tsp"
           @amount = TSP * @amount
@@ -127,10 +132,13 @@ class CombinedIngredient
         end
 
         # Reset amount_unit to oz
-        @amount_unit = "fl_oz"
+        @amount_unit = "us_fl_oz"
 
         # Convert amount based on weight or volume
         converted_amount = convert_amount("volume")
+
+        @amount = saved_amount
+        @amount_unit = saved_unit
       end
 
       @total_cost = (@cost_ratio * converted_amount).round(2)
