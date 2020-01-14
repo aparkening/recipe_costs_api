@@ -8,10 +8,9 @@ class CombinedIngredient
   EA = 1 # individual amount
   # A cup of all-purpose flour weighs 4 1/4 ounces or 120 grams
 
-
+  
   ### Build object that combines amounts, units, and costs from ingredients and user_ingredient_costs tables
   # Then calculate ingredient cost for recipe
-
   def initialize(recipe_ingredient)
     # @user = recipe_ingredient.recipe.user
     @id = recipe_ingredient.id
