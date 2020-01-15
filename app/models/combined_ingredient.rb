@@ -70,7 +70,7 @@ class CombinedIngredient
   def convert_amount(type)
     if type == "volume"
       # If base_cost_unit is weight, convert amount and amount_unit to weight
-      if Measured::Weight.unit_names.include?(@base_cost_unit)
+      if Measured::Weight.unit_or_alias?(@base_cost_unit)
         converted_amount = convert_vol_weight("weight")
       else 
         # Else calculate using volume
@@ -78,7 +78,7 @@ class CombinedIngredient
       end
     else
       # If base_cost_unit is volume, convert amount and amount_unit to volume
-      if Measured::Volume.unit_names.include?(@base_cost_unit)
+      if Measured::Volume.unit_or_alias?(@base_cost_unit)
         converted_amount = convert_vol_weight("volume")
       else 
         # Else convert using weight
@@ -105,29 +105,28 @@ class CombinedIngredient
       # Check all valid units: Measured::Weight.unit_names
 
       # If amount_unit in Measured Weight database, convert
-      if Measured::Weight.unit_names.include?(@amount_unit)
+      if Measured::Weight.unit_or_alias?(@amount_unit)
         # Convert amount based on weight or volume
         converted_amount = convert_amount("weight")
 
       # If amount_unit in Measured Volume database, convert
-      elsif Measured::Volume.unit_names.include?(@amount_unit)
+      elsif Measured::Volume.unit_or_alias?(@amount_unit)
         # Convert amount based on weight or volume
         converted_amount = convert_amount("volume")
      
       # Else convert by constants
       else 
-        
         # Save initial values. Display after calculations made.
         saved_amount = @amount
         saved_unit = @amount_unit
 
         case @amount_unit
         when "tsp"
-          @amount = TSP * @amount
-        when "Tbsp"
-          @amount = TBSP * @amount
+          @amount *= TSP
+        when "tbsp"
+          @amount *= TBSP
         when "cup"
-          @amount = CUP * @amount
+          @amount *= CUP
         end
 
         # Reset amount_unit to oz
