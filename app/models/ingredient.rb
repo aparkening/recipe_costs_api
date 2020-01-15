@@ -21,4 +21,21 @@ class Ingredient < ApplicationRecord
     end
   end
 
+  # Convert subset of ingredient units to Measured gem-compatible units
+  def convert_to_measured
+    converter = 1
+    case self.cost_unit
+      when "tsp"
+        converter = 0.16667 # convert to us_fl_oz        
+        self.cost_unit = "us_fl_oz"
+      when "tbsp"
+        converter = 0.5 # convert to us_fl_oz  
+        self.cost_unit = "us_fl_oz"
+      when "cup"
+        converter = 8 # convert to us_fl_oz  
+        self.cost_unit = "us_fl_oz"
+    end
+    self.cost_size *= converter
+  end
+
 end
