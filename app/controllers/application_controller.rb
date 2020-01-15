@@ -25,7 +25,7 @@ class ApplicationController < ActionController::API
     # all_units = weight_units | volume_units
 
     # Too many extraneous units. Manual list easier.
-    all_units = ['gram', 'kg', 'lb', 'oz', 'liter', 'gal', 'qt', 'pt', 'us_fl_oz', 'tsp', 'tbsp', 'cup', 'none', 'each'].sort
+    all_units = ['gram', 'kg', 'lb', 'oz', 'liter', 'gal', 'qt', 'pt', 'us_fl_oz', 'tsp', 'tbsp', 'cup', 'each'].sort
     return all_units
 	end
 
