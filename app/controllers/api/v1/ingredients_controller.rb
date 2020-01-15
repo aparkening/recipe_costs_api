@@ -15,7 +15,12 @@ class Api::V1::IngredientsController < ApplicationController
     # Make name lowercase
     params[:ingredient][:name] = params[:ingredient][:name].downcase
 
+    # Instantiate new ingredient
     ingredient = Ingredient.new(ing_params)
+
+    # Convert ingredient amounts to us fluid oz if tsp, tbsp, or cup
+    ingredient.convert_to_measured
+
     if ingredient.save
       render json: {ingredient: ingredient}, status: 200
     else
@@ -28,8 +33,12 @@ class Api::V1::IngredientsController < ApplicationController
     # Make name lowercase
     params[:ingredient][:name] = params[:ingredient][:name].downcase
 
-    ingredient = Ingredient.find_by(id: params[:id])
+    ingredient = Ingredient.find_by(id: params[:id])    
     ingredient.update(ing_params)
+
+    # Convert ingredient amounts to us fluid oz if tsp, tbsp, or cup
+    ingredient.convert_to_measured
+
     if ingredient.save
       render json: {ingredient: ingredient}, status: 200
     else
