@@ -50,31 +50,15 @@ walnuts = Ingredient.create(name: "walnuts", cost: 98.75, cost_size:25, cost_uni
 
 # Add ingredients to recipes
 # -> Upload full set from recipe CSVs in app/assets
+
+#  Chocolate Chip Cookies recipe ingredients
 cc_butter = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("butter"), ingredient_amount:2, ingredient_unit:"lb")
 cc_sugar = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("sugar"), ingredient_amount:35, ingredient_unit:"oz")
 cc_molasses = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("molasses"), ingredient_amount:1.42, ingredient_unit:"oz")
 cc_v_extract = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("vanilla extract"), ingredient_amount:0.5, ingredient_unit:"oz")
-cc_v_egg = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("egg"), ingredient_amount:8, ingredient_unit:"none")
+cc_v_egg = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("egg"), ingredient_amount:8, ingredient_unit:"each")
 cc_flour = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("all-purpose flour"), ingredient_amount:2.5, ingredient_unit:"lb")
 cc_b_soda = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("baking soda"), ingredient_amount:0.9, ingredient_unit:"oz")
 cc_salt = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("salt"), ingredient_amount:0.75, ingredient_unit:"oz")
 cc_choc_chips = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("chocolate chips"), ingredient_amount:36, ingredient_unit:"oz")
 cc_walnuts = choc_chip_cookies.recipe_ingredients.create(ingredient:Ingredient.find_by_name("walnuts"), ingredient_amount:8, ingredient_unit:"oz")
-
-# choc_chop_flour = user1_r1.recipe_ingredients.create(ingredient:ing1, ingredient_amount:6.376, ingredient_unit:"oz")
-  # get name with user1_r1.recipe_ingredients.first.ingredient.name
-
-
-### Testing
-# For each recipe, find_by_name, then loop through recipe ingredients to add each ingredient:
-  # recipe.recipe_ingredients.create(ingredient:Ingredient.find_by_name("all-purpose flour"), ingredient_amount:6.376, ingredient_unit:"oz")
-
-# Add ingredient to recipe
-# r1_ing1 = user1_r1.recipe_ingredients.create(ingredient:ing1, ingredient_amount:6.376, ingredient_unit:"oz")
-  # get name with user1_r1.recipe_ingredients.first.ingredient.name
-
-# Make ingredient cost specific to user.
-# user1_ing1 = user1.user_ingredient_costs.create(ingredient:ing1, cost:14.00, cost_size:1, cost_unit:"lb")
-
-# Set CombinedIngredient object that combines data in Ingredient and UserIngredient
-# combo_ing1 = CombinedIngredient.new(r1_ing1)
