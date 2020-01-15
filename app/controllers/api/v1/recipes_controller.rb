@@ -24,17 +24,9 @@ class Api::V1::RecipesController < ApplicationController
       new_recipe[:recipe][:name] = recipe.name
       new_recipe[:recipe][:servings] = recipe.servings
 
-      # Get costs per ingredient
-      new_recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
-
-      # Calculate total cost
-      new_recipe[:recipe][:total_cost] = recipe.calc_cost(new_recipe_ingredients)
-
-      # Calculate cost per serving
-      new_recipe[:recipe][:cost_per_serving] = recipe.calc_cost_per_serving(new_recipe[:recipe][:total_cost]) if recipe.servings
-
-      # Add recipe_ingredients with costs
-      new_recipe[:ingredients] = new_recipe_ingredients
+      # Assign total cost, cost per serving to recipe. Assign ingredients to recipe_ingredients
+      recipe_cost = construct_ingredient_costs(recipe)
+      new_recipe[:recipe][:total_cost], new_recipe[:recipe][:cost_per_serving], new_recipe[:ingredients] = recipe_cost[:total_cost], recipe_cost[:cost_per_serving], recipe_cost[:ingredients]
 
       new_recipe
     end 
@@ -43,44 +35,33 @@ class Api::V1::RecipesController < ApplicationController
     render json: {recipes: recipe_costs}, status: 200  
   end
 
-  # Display record
-  def show
-    recipe = Recipe.find_by(id: params[:id])
+  # # Display record
+  # def show
+  #   recipe = Recipe.find_by(id: params[:id])
     
-    # If recipe exists, iterate through ingredients to calculate each cost and combine into total cost and cost per serving.
-    if recipe
-      # Map costs for each ingredient
-      recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
+  #   # If recipe exists, iterate through ingredients to calculate each cost and combine into total cost and cost per serving.
+  #   if recipe
+  #     # Assign total cost, cost per serving to recipe. Assign ingredients to recipe_ingredients
+  #     recipe_costs = construct_ingredient_costs(recipe)
+  #     recipe[:total_cost] = recipe_costs[:total_cost]
+  #     recipe[:cost_per_serving] = recipe_costs[:cost_per_serving]
+  #     recipe_ingredients = recipe_costs[:ingredients]
 
-      # Total recipe cost
-      recipe_total_cost = recipe.calc_cost(recipe_ingredients)
-      recipe[:total_cost] = recipe_total_cost
-
-      # Cost per serving
-      recipe[:cost_per_serving] = ''
-      recipe[:cost_per_serving] = recipe.calc_cost_per_serving(recipe_total_cost) if recipe.servings
-
-      # Render json
-      render json: {recipe: recipe, ingredients: recipe_ingredients}, status: 200
-    else
-      not_found
-    end
-  end
+  #     # Render json
+  #     render json: {recipe: recipe, ingredients: recipe_ingredients}, status: 200
+  #   else
+  #     not_found
+  #   end
+  # end
 
   # Create record
   def create
     recipe = Recipe.new(recipe_params)
     if recipe.save
-      # Map costs for each ingredient
-      recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
-
-      # Total recipe cost
-      recipe_total_cost = recipe.calc_cost(recipe_ingredients)
-      recipe[:total_cost] = recipe_total_cost
-
-      # Cost per serving
-      recipe[:cost_per_serving] = ''
-      recipe[:cost_per_serving] = recipe.calc_cost_per_serving(recipe_total_cost) if recipe.servings
+      # Assign total cost, cost per serving to recipe. Assign ingredients to recipe_ingredients
+      recipe_cost = construct_ingredient_costs(recipe)
+      recipe[:total_cost], recipe[:cost_per_serving] = recipe_cost[:total_cost], recipe_cost[:cost_per_serving]
+      recipe_ingredients = recipe_cost[:ingredients]
 
       # Render json
       render json: {recipe: recipe, ingredients: recipe_ingredients}, status: 200
@@ -96,16 +77,10 @@ class Api::V1::RecipesController < ApplicationController
     recipe.update(recipe_params)
 
     if recipe.save
-      # Map costs for each ingredient
-      recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
-
-      # Total recipe cost
-      recipe_total_cost = recipe.calc_cost(recipe_ingredients)
-      recipe[:total_cost] = recipe_total_cost
-
-      # Cost per serving
-      recipe[:cost_per_serving] = ''
-      recipe[:cost_per_serving] = recipe.calc_cost_per_serving(recipe_total_cost) if recipe.servings
+      # Assign total cost, cost per serving to recipe. Assign ingredients to recipe_ingredients
+      recipe_cost = construct_ingredient_costs(recipe)
+      recipe[:total_cost], recipe[:cost_per_serving] = recipe_cost[:total_cost], recipe_cost[:cost_per_serving]
+      recipe_ingredients = recipe_cost[:ingredients]
 
       # Render json
       render json: {recipe: recipe, ingredients: recipe_ingredients}, status: 200
@@ -162,6 +137,26 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   private
+
+  # Return total cost, cost per serving, and ingredients with costs
+  def construct_ingredient_costs(recipe)
+    recipe_obj = {}
+  
+    # Map costs per ingredient
+    recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
+  
+    # Calculate total cost
+    recipe_obj[:total_cost] = recipe.calc_cost(recipe_ingredients)
+  
+    # Calculate cost per serving
+    recipe_obj[:cost_per_serving] = ''
+    recipe_obj[:cost_per_serving] = recipe.calc_cost_per_serving(recipe_obj[:total_cost]) if recipe.servings
+  
+    # Add all ingredients with costs to object
+    recipe_obj[:ingredients] = recipe_ingredients
+  
+    return recipe_obj
+  end
 
   def recipe_params
     params.require(:recipe).permit(:name, :servings, recipe_ingredients_attributes: [:ingredient_id, :ingredient_amount, :ingredient_unit, :_destroy, :id])
