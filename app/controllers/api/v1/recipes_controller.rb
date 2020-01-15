@@ -143,7 +143,9 @@ class Api::V1::RecipesController < ApplicationController
     recipe_obj = {}
   
     # Map costs per ingredient
-    recipe_ingredients = recipe.recipe_ingredients.map { |ingredient| CombinedIngredient.new(ingredient) }
+    recipe_ingredients = recipe.recipe_ingredients.map do |ingredient| 
+      CombinedIngredient.new(ingredient)
+    end
   
     # Calculate total cost
     recipe_obj[:total_cost] = recipe.calc_cost(recipe_ingredients)
