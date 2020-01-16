@@ -1,6 +1,6 @@
 # Recipe Costs API
 
-Professional kitchens need to know their recipe costs to profitably price their food. Recipe Costs makes it easy for chefs to figure out the cost-per-serving of their recipes. 
+Professional kitchens need to know their recipe costs to profitably price their food. Recipe Costs makes it easy to determine both the full cost and cost per serving of each recipe. 
 
 This repository houses the Rails API, supplying data to the [JavaScript frontend interface](https://github.com/aparkening/recipe_costs_frontend). 
 
