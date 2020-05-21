@@ -23,3 +23,6 @@
 
 # Ignore dotenv
 .env
+
+# Ignore Mac Desktop Services Store
+**/.DS_Store
