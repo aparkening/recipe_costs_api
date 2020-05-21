@@ -5,32 +5,24 @@
 ### Build seeds
 
 # Recipes
-white_bread = Recipe.create(name:"White Bread", servings:8)
-english_muffins = Recipe.create(name:"English Muffins", servings:60)
-
-choc_torte = Recipe.create(name:"Flourless Chocolate Torte", servings:64) 
-
-puff_pastry = Recipe.create(name:"Puff Pastry", servings:92)
-ginger_cake = Recipe.create(name:"Ginger Cake", servings:18)
- 
-chicken_teriyaki = Recipe.create(name:"Chicken Teriyaki", servings:4)
-onigiri = Recipe.create(name:"Chicken Teriyaki Onigiri", servings:4)
-tamagoyaki = Recipe.create(name:"Tamagoyaki", servings:4)
-
-apple_cake = Recipe.create(name:"Apple Cake", servings:24)  
-
-apple_pie = Recipe.create(name:"Apple Pie", servings:8) 
-pumpkin_scones = Recipe.create(name:"Pumpkin Scones", servings:8) 
-
-ginger_cookies = Recipe.create(name:"Ginger Cookies", servings:186) 
+# white_bread = Recipe.create(name:"White Bread", servings:8)
+# english_muffins = Recipe.create(name:"English Muffins", servings:60)
+# choc_torte = Recipe.create(name:"Flourless Chocolate Torte", servings:64) 
+# puff_pastry = Recipe.create(name:"Puff Pastry", servings:92)
+# ginger_cake = Recipe.create(name:"Ginger Cake", servings:18)
+# chicken_teriyaki = Recipe.create(name:"Chicken Teriyaki", servings:4)
+# onigiri = Recipe.create(name:"Chicken Teriyaki Onigiri", servings:4)
+# tamagoyaki = Recipe.create(name:"Tamagoyaki", servings:4)
+# apple_cake = Recipe.create(name:"Apple Cake", servings:24)  
+# apple_pie = Recipe.create(name:"Apple Pie", servings:8) 
+# pumpkin_scones = Recipe.create(name:"Pumpkin Scones", servings:8) 
+# ginger_cookies = Recipe.create(name:"Ginger Cookies", servings:186) 
+# macaroons = Recipe.create(name:"Macaroons", servings:60)
 
 choc_chip_cookies = Recipe.create(name:"Chocolate Chip Cookies", servings:240)
-macaroons = Recipe.create(name:"Macaroons", servings:60)
-
 cinn_raisin_bread = Recipe.create(name:"Cinnamon Raisin Bread", servings:8) 
 french_bread = Recipe.create(name:"French Bread", servings:6)
 pizza_dough = Recipe.create(name:"Pizza Dough", servings:6)
-
 
 # Ingredients
 # -> Upload full set from app/assets/ingredients.csv
