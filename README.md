@@ -11,16 +11,25 @@ This repository houses the Rails API, supplying data to the [JavaScript frontend
 ```
     $ bundle install
 ```
-3. Create database structure:
+3. Install PostgreSQL. Using [Homebrew on macOS](https://brew.sh/) this looks like:
+```
+    $ brew install postgresql
+```
+4. Start and log in to Postgresql database:
+```
+    $ brew services start postgresql
+    $ psql postgres
+```
+5. Create database structure:
 ```
     $ rails db:create
     $ rails db:migrate
 ```
-4. Run web server:
+6. Run web server:
 ```
     $ rails s
 ```
-5. Navigate to `localhost:3000` in your browser.
+7. Navigate to `localhost:3000` in your browser.
 
 ## Usage
 
